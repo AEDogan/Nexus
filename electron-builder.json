@@ -1,0 +1,39 @@
+{
+  "appId": "com.nexus.launcher",
+  "productName": "NEXUS",
+  "copyright": "Copyright © 2026 NEXUS",
+  "directories": {
+    "output": "release",
+    "buildResources": "public"
+  },
+  "files": [
+    "dist/**/*",
+    "electron/**/*",
+    "public/**/*",
+    "package.json"
+  ],
+  "win": {
+    "target": [
+      {
+        "target": "nsis",
+        "arch": ["x64"]
+      }
+    ],
+    "icon": "public/nexus_icon.ico",
+    "artifactName": "${productName}-Setup-${version}.${ext}"
+  },
+  "nsis": {
+    "oneClick": false,
+    "perMachine": false,
+    "allowToChangeInstallationDirectory": true,
+    "createDesktopShortcut": true,
+    "createStartMenuShortcut": true,
+    "shortcutName": "NEXUS",
+    "installerIcon": "public/nexus_icon.ico",
+    "uninstallerIcon": "public/nexus_icon.ico",
+    "installerHeaderIcon": "public/nexus_icon.ico",
+    "uninstallDisplayName": "${productName}",
+    "deleteAppDataOnUninstall": false,
+    "runAfterFinish": true
+  }
+}

@@ -1,0 +1,296 @@
+import { ThemeConfig, ThemeId } from './types';
+
+export const THEMES: Record<ThemeId, ThemeConfig> = {
+  // 1. DIRECT REFERENCE TO TESTER-TRACKER (VERCEL)
+  'neo-mint-glass': {
+    id: 'neo-mint-glass',
+    name: 'Neo-Mint Glass',
+    categoryName: 'Açık / Buzlu Cam',
+    description: 'Tester Tracker referans teması — Buzlu Porselen, Biyo-Turkuaz ışıltılar ve kristal cam paneller',
+    isLight: true,
+    previewBg: 'linear-gradient(135deg, #059669 0%, #0d9488 50%, #06b6d4 100%)',
+    bodyBg: '#f0fdf9',
+    gradientOverlay: `
+      radial-gradient(at 0% 0%, rgba(20, 184, 166, 0.22) 0px, transparent 50%),
+      radial-gradient(at 100% 0%, rgba(6, 182, 212, 0.22) 0px, transparent 50%),
+      radial-gradient(at 50% 100%, rgba(16, 185, 129, 0.16) 0px, transparent 50%),
+      radial-gradient(at 50% 50%, rgba(255, 255, 255, 0.88) 0px, transparent 100%)
+    `,
+    cardBg: 'rgba(255, 255, 255, 0.78)',
+    cardBorder: 'rgba(20, 184, 166, 0.32)',
+    cardHoverBorder: 'rgba(13, 148, 136, 0.65)',
+    cardShadow: '0 10px 32px rgba(13, 148, 136, 0.12), inset 0 0 0 1px rgba(255, 255, 255, 0.9)',
+    headerBorder: 'rgba(20, 184, 166, 0.3)',
+    textPrimary: '#0f172a',
+    textSecondary: '#334155',
+    accent: '#0d9488',
+    accentBg: 'rgba(20, 184, 166, 0.15)',
+    buttonPlay: 'linear-gradient(135deg, #059669 0%, #0d9488 50%, #0284c7 100%)',
+    badgeBg: 'rgba(204, 251, 241, 0.85)',
+    glassBackdrop: 'blur(20px)',
+    activeCategoryBg: 'rgba(20, 184, 166, 0.18)',
+    inputBg: 'rgba(255, 255, 255, 0.9)'
+  },
+
+  // 2. ARCTIC CRYSTAL GLASS
+  'arctic-crystal': {
+    id: 'arctic-crystal',
+    name: 'Arctic Crystal',
+    categoryName: 'Açık / Buzlu Cam',
+    description: 'Buz mavisi ferah cam, safir ışıltılar ve berrak kristal akrilik yüzey',
+    isLight: true,
+    previewBg: 'linear-gradient(135deg, #38bdf8 0%, #0284c7 50%, #2563eb 100%)',
+    bodyBg: '#f0f9ff',
+    gradientOverlay: `
+      radial-gradient(at 10% 10%, rgba(56, 189, 248, 0.22) 0px, transparent 50%),
+      radial-gradient(at 90% 20%, rgba(14, 165, 233, 0.18) 0px, transparent 50%),
+      radial-gradient(at 50% 100%, rgba(125, 211, 252, 0.25) 0px, transparent 60%)
+    `,
+    cardBg: 'rgba(255, 255, 255, 0.82)',
+    cardBorder: 'rgba(56, 189, 248, 0.35)',
+    cardHoverBorder: 'rgba(2, 132, 199, 0.6)',
+    cardShadow: '0 12px 36px rgba(2, 132, 199, 0.1), inset 0 0 0 1px rgba(255, 255, 255, 0.95)',
+    headerBorder: 'rgba(56, 189, 248, 0.3)',
+    textPrimary: '#0c4a6e',
+    textSecondary: '#0369a1',
+    accent: '#0284c7',
+    accentBg: 'rgba(56, 189, 248, 0.16)',
+    buttonPlay: 'linear-gradient(135deg, #0284c7 0%, #2563eb 100%)',
+    badgeBg: 'rgba(224, 242, 254, 0.85)',
+    glassBackdrop: 'blur(22px)',
+    activeCategoryBg: 'rgba(56, 189, 248, 0.2)',
+    inputBg: 'rgba(255, 255, 255, 0.92)'
+  },
+
+  // 3. OPAL PRISM GLASS (From ChatGPT discussion)
+  'opal-prism': {
+    id: 'opal-prism',
+    name: 'Prism Glass',
+    categoryName: 'Açık / Prizmatik Cam',
+    description: 'ChatGPT sohbetindeki PRISM konsepti — sedefli cam, yumuşak spektrum yansımaları ve akışkan ışık',
+    isLight: true,
+    previewBg: 'linear-gradient(135deg, #f472b6 0%, #c084fc 40%, #60a5fa 70%, #34d399 100%)',
+    bodyBg: '#faf5ff',
+    gradientOverlay: `
+      radial-gradient(at 0% 0%, rgba(244, 114, 182, 0.15) 0px, transparent 40%),
+      radial-gradient(at 100% 0%, rgba(192, 132, 252, 0.18) 0px, transparent 50%),
+      radial-gradient(at 50% 100%, rgba(96, 165, 250, 0.16) 0px, transparent 50%),
+      radial-gradient(at 100% 100%, rgba(52, 211, 153, 0.12) 0px, transparent 40%)
+    `,
+    cardBg: 'rgba(255, 255, 255, 0.8)',
+    cardBorder: 'rgba(192, 132, 252, 0.3)',
+    cardHoverBorder: 'rgba(168, 85, 247, 0.6)',
+    cardShadow: '0 12px 32px rgba(168, 85, 247, 0.1), inset 0 0 0 1px rgba(255, 255, 255, 0.95)',
+    headerBorder: 'rgba(192, 132, 252, 0.28)',
+    textPrimary: '#1e1b4b',
+    textSecondary: '#581c87',
+    accent: '#9333ea',
+    accentBg: 'rgba(192, 132, 252, 0.18)',
+    buttonPlay: 'linear-gradient(135deg, #a855f7 0%, #6366f1 100%)',
+    badgeBg: 'rgba(243, 232, 255, 0.9)',
+    glassBackdrop: 'blur(20px)',
+    activeCategoryBg: 'rgba(192, 132, 252, 0.22)',
+    inputBg: 'rgba(255, 255, 255, 0.92)'
+  },
+
+  // 4. FROST GLASS CLASSIC (Clean White/Translucent)
+  'frost-glass': {
+    id: 'frost-glass',
+    name: 'Frost Glass Classic',
+    categoryName: 'Açık / Minimal Cam',
+    description: 'Pürüzsüz buzlu beyaz cam, zarif gri gölgeler ve modern minimalist akrilik',
+    isLight: true,
+    previewBg: 'linear-gradient(135deg, #ffffff 0%, #cbd5e1 100%)',
+    bodyBg: '#f8fafc',
+    gradientOverlay: `
+      radial-gradient(at 50% 0%, rgba(203, 213, 225, 0.4) 0px, transparent 60%),
+      radial-gradient(at 100% 100%, rgba(226, 232, 240, 0.5) 0px, transparent 50%)
+    `,
+    cardBg: 'rgba(255, 255, 255, 0.85)',
+    cardBorder: 'rgba(203, 213, 225, 0.6)',
+    cardHoverBorder: 'rgba(148, 163, 184, 0.8)',
+    cardShadow: '0 8px 30px rgba(0, 0, 0, 0.06), inset 0 0 0 1px rgba(255, 255, 255, 0.9)',
+    headerBorder: 'rgba(226, 232, 240, 0.8)',
+    textPrimary: '#0f172a',
+    textSecondary: '#64748b',
+    accent: '#334155',
+    accentBg: 'rgba(15, 23, 42, 0.08)',
+    buttonPlay: 'linear-gradient(135deg, #334155 0%, #0f172a 100%)',
+    badgeBg: 'rgba(241, 245, 249, 0.9)',
+    glassBackdrop: 'blur(20px)',
+    activeCategoryBg: 'rgba(15, 23, 42, 0.1)',
+    inputBg: 'rgba(255, 255, 255, 0.95)'
+  },
+
+  // 5. ROSE QUARTZ GLASS
+  'rose-glass': {
+    id: 'rose-glass',
+    name: 'Rose Quartz Glass',
+    categoryName: 'Açık / Pastel Cam',
+    description: 'Gül kuvarsı saydam cam, şeftali-pudra ışık kırılmaları ve yumuşak atmosfer',
+    isLight: true,
+    previewBg: 'linear-gradient(135deg, #fb7185 0%, #f43f5e 50%, #fda4af 100%)',
+    bodyBg: '#fff1f2',
+    gradientOverlay: `
+      radial-gradient(at 0% 0%, rgba(251, 113, 133, 0.18) 0px, transparent 50%),
+      radial-gradient(at 100% 100%, rgba(244, 63, 94, 0.12) 0px, transparent 50%)
+    `,
+    cardBg: 'rgba(255, 255, 255, 0.82)',
+    cardBorder: 'rgba(251, 113, 133, 0.3)',
+    cardHoverBorder: 'rgba(244, 63, 94, 0.6)',
+    cardShadow: '0 10px 30px rgba(244, 63, 94, 0.08), inset 0 0 0 1px rgba(255, 255, 255, 0.9)',
+    headerBorder: 'rgba(251, 113, 133, 0.28)',
+    textPrimary: '#4c0519',
+    textSecondary: '#9f1239',
+    accent: '#e11d48',
+    accentBg: 'rgba(251, 113, 133, 0.15)',
+    buttonPlay: 'linear-gradient(135deg, #f43f5e 0%, #e11d48 100%)',
+    badgeBg: 'rgba(255, 228, 230, 0.9)',
+    glassBackdrop: 'blur(20px)',
+    activeCategoryBg: 'rgba(251, 113, 133, 0.18)',
+    inputBg: 'rgba(255, 255, 255, 0.92)'
+  },
+
+  // 6. OBSIDIAN SLATE (TESTER-TRACKER DARK MODE)
+  'obsidian-slate': {
+    id: 'obsidian-slate',
+    name: 'Obsidian Slate',
+    categoryName: 'Koyu / Tester Tracker Dark',
+    description: 'Tester Tracker koyu modu — Derin arduvaz (#0b0f19), koyu cam paneller ve mavi/çivit aurası',
+    isLight: false,
+    previewBg: 'linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%)',
+    bodyBg: '#0b0f19',
+    gradientOverlay: `
+      radial-gradient(at 0% 0%, rgba(30, 41, 59, 0.45) 0px, transparent 50%),
+      radial-gradient(at 100% 100%, rgba(15, 23, 42, 0.65) 0px, transparent 50%),
+      radial-gradient(at 50% 50%, rgba(99, 102, 241, 0.05) 0px, transparent 60%)
+    `,
+    cardBg: 'rgba(19, 27, 46, 0.85)',
+    cardBorder: '#1e293b',
+    cardHoverBorder: 'rgba(99, 102, 241, 0.5)',
+    cardShadow: '0 20px 50px rgba(0, 0, 0, 0.5)',
+    headerBorder: '#1e293b',
+    textPrimary: '#f8fafc',
+    textSecondary: '#94a3b8',
+    accent: '#818cf8',
+    accentBg: 'rgba(99, 102, 241, 0.16)',
+    buttonPlay: 'linear-gradient(135deg, #6366f1 0%, #4f46e5 100%)',
+    badgeBg: '#1e293b',
+    glassBackdrop: 'blur(20px)',
+    activeCategoryBg: 'rgba(99, 102, 241, 0.22)',
+    inputBg: '#0f172a'
+  },
+
+  // 7. DARK STEEL
+  'dark-steel': {
+    id: 'dark-steel',
+    name: 'Dark Steel',
+    categoryName: 'Koyu / Metalik',
+    description: 'Fırçalanmış soğuk çelik, endüstriyel titanyum ve koyu grafit yüzeyler',
+    isLight: false,
+    previewBg: 'linear-gradient(135deg, #334155, #0f172a)',
+    bodyBg: '#0e1117',
+    gradientOverlay: `
+      radial-gradient(circle at 30% 20%, rgba(148, 163, 184, 0.1) 0%, transparent 55%),
+      radial-gradient(circle at 80% 80%, rgba(71, 85, 105, 0.08) 0%, transparent 50%)
+    `,
+    cardBg: 'rgba(30, 41, 59, 0.45)',
+    cardBorder: 'rgba(148, 163, 184, 0.18)',
+    cardHoverBorder: 'rgba(203, 213, 225, 0.45)',
+    cardShadow: '0 16px 40px rgba(0, 0, 0, 0.4)',
+    headerBorder: 'rgba(148, 163, 184, 0.16)',
+    textPrimary: '#f1f5f9',
+    textSecondary: '#94a3b8',
+    accent: '#cbd5e1',
+    accentBg: 'rgba(148, 163, 184, 0.15)',
+    buttonPlay: 'rgba(148, 163, 184, 0.25)',
+    badgeBg: 'rgba(51, 65, 85, 0.5)',
+    glassBackdrop: 'blur(16px)',
+    activeCategoryBg: 'rgba(148, 163, 184, 0.24)',
+    inputBg: 'rgba(30, 41, 59, 0.5)'
+  },
+
+  // 8. MIDNIGHT SAPPHIRE
+  'midnight-blue': {
+    id: 'midnight-blue',
+    name: 'Midnight Sapphire',
+    categoryName: 'Koyu / Gece Mavisi',
+    description: 'Gece yarısı safiri, koyu lacivert gölgeler ve dingin teknolojik asalet',
+    isLight: false,
+    previewBg: 'linear-gradient(135deg, #1e1b4b, #030712)',
+    bodyBg: '#050714',
+    gradientOverlay: `
+      radial-gradient(circle at 60% 10%, rgba(99, 102, 241, 0.12) 0%, transparent 60%),
+      radial-gradient(circle at 10% 80%, rgba(59, 130, 246, 0.1) 0%, transparent 50%)
+    `,
+    cardBg: 'rgba(30, 27, 75, 0.28)',
+    cardBorder: 'rgba(99, 102, 241, 0.22)',
+    cardHoverBorder: 'rgba(129, 140, 248, 0.5)',
+    cardShadow: '0 16px 40px rgba(0, 0, 0, 0.5)',
+    headerBorder: 'rgba(99, 102, 241, 0.18)',
+    textPrimary: '#e0e7ff',
+    textSecondary: '#a5b4fc',
+    accent: '#818cf8',
+    accentBg: 'rgba(99, 102, 241, 0.18)',
+    buttonPlay: 'linear-gradient(135deg, #6366f1 0%, #4338ca 100%)',
+    badgeBg: 'rgba(49, 46, 129, 0.4)',
+    glassBackdrop: 'blur(18px)',
+    activeCategoryBg: 'rgba(99, 102, 241, 0.25)',
+    inputBg: 'rgba(17, 24, 39, 0.5)'
+  },
+
+  // 9. AURORA BOREALIS
+  'aurora-glass': {
+    id: 'aurora-glass',
+    name: 'Aurora Borealis',
+    categoryName: 'Koyu / Zümrüt Cam',
+    description: 'Kuzey ışıkları ilhamı — zümrüt ve morumsu yumuşak ışık dalgaları',
+    isLight: false,
+    previewBg: 'linear-gradient(135deg, #064e3b, #1e1b4b)',
+    bodyBg: '#040d0a',
+    gradientOverlay: `
+      radial-gradient(circle at 20% 0%, rgba(16, 185, 129, 0.15) 0%, transparent 50%),
+      radial-gradient(circle at 80% 80%, rgba(168, 85, 247, 0.12) 0%, transparent 50%)
+    `,
+    cardBg: 'rgba(6, 78, 59, 0.18)',
+    cardBorder: 'rgba(45, 212, 191, 0.22)',
+    cardHoverBorder: 'rgba(52, 211, 153, 0.45)',
+    cardShadow: '0 16px 40px rgba(0, 0, 0, 0.45)',
+    headerBorder: 'rgba(45, 212, 191, 0.18)',
+    textPrimary: '#ecfdf5',
+    textSecondary: '#6ee7b7',
+    accent: '#34d399',
+    accentBg: 'rgba(16, 185, 129, 0.18)',
+    buttonPlay: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
+    badgeBg: 'rgba(6, 78, 59, 0.35)',
+    glassBackdrop: 'blur(20px)',
+    activeCategoryBg: 'rgba(16, 185, 129, 0.22)',
+    inputBg: 'rgba(2, 44, 34, 0.4)'
+  },
+
+  // 10. CARBON MATRIX
+  'carbon-matrix': {
+    id: 'carbon-matrix',
+    name: 'Carbon Matrix',
+    categoryName: 'Koyu / Karbon',
+    description: 'Karbon fiber mat dokusu, koyu kompozit hatlar ve monokrom asalet',
+    isLight: false,
+    previewBg: 'linear-gradient(135deg, #262626, #0a0a0a)',
+    bodyBg: '#080808',
+    gradientOverlay: 'radial-gradient(circle at 50% 30%, rgba(255, 255, 255, 0.04) 0%, transparent 70%)',
+    cardBg: 'rgba(23, 23, 23, 0.85)',
+    cardBorder: 'rgba(64, 64, 64, 0.45)',
+    cardHoverBorder: 'rgba(115, 115, 115, 0.65)',
+    cardShadow: '0 16px 40px rgba(0, 0, 0, 0.6)',
+    headerBorder: 'rgba(64, 64, 64, 0.35)',
+    textPrimary: '#f5f5f5',
+    textSecondary: '#a3a3a3',
+    accent: '#e5e5e5',
+    accentBg: 'rgba(255, 255, 255, 0.1)',
+    buttonPlay: 'rgba(82, 82, 82, 0.5)',
+    badgeBg: 'rgba(38, 38, 38, 0.8)',
+    glassBackdrop: 'blur(12px)',
+    activeCategoryBg: 'rgba(255, 255, 255, 0.15)',
+    inputBg: 'rgba(23, 23, 23, 0.7)'
+  }
+};

@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100" fill="none">
+  <defs>
+    <linearGradient id="rsBody" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2dd4bf" />
+      <stop offset="100%" stop-color="#0284c7" />
+    </linearGradient>
+  </defs>
+  <polygon points="32,48 16,52 26,34" fill="#0284c7" />
+  <polygon points="52,68 48,84 66,74" fill="#0284c7" />
+  <path d="M78 18 C84 24 84 32 78 40 L52 66 L34 48 L60 22 C68 16 74 16 78 18 Z" fill="url(#rsBody)" />
+  <circle cx="62" cy="36" r="6" fill="#ffffff" />
+  <polygon points="34,66 20,86 36,76 28,94 46,74" fill="#f59e0b" />
+</svg>

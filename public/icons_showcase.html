@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>NEXUS - 10 Modern İkon Konsepti Görsel Vitrini</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+    body {
+      background: radial-gradient(circle at 50% 0%, #111827 0%, #030712 100%);
+      color: #f3f4f6;
+      min-height: 100vh;
+      padding: 40px 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .header {
+      text-align: center;
+      max-width: 700px;
+      margin-bottom: 48px;
+    }
+    .badge {
+      display: inline-block;
+      padding: 4px 12px;
+      background: rgba(20, 184, 166, 0.15);
+      border: 1px solid rgba(20, 184, 166, 0.4);
+      color: #2dd4bf;
+      border-radius: 9999px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    h1 {
+      font-size: 32px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      background: linear-gradient(135deg, #ffffff 0%, #a7f3d0 50%, #38bdf8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 10px;
+    }
+    p {
+      color: #9ca3af;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 24px;
+      max-width: 1200px;
+      width: 100%;
+    }
+    .card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 24px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+      backdrop-filter: blur(16px);
+    }
+    .card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(45, 212, 191, 0.5);
+      box-shadow: 0 20px 40px -15px rgba(20, 184, 166, 0.25);
+      background: rgba(255, 255, 255, 0.05);
+    }
+    .num {
+      position: absolute;
+      top: 16px;
+      left: 18px;
+      font-size: 11px;
+      font-weight: 800;
+      color: #6b7280;
+      font-family: monospace;
+    }
+    .icon-box {
+      width: 110px;
+      height: 110px;
+      border-radius: 28px;
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 16px 0 20px;
+      box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5), 0 8px 24px rgba(0, 0, 0, 0.4);
+      transition: transform 0.3s ease;
+    }
+    .card:hover .icon-box {
+      transform: scale(1.08);
+    }
+    .title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #f9fafb;
+      margin-bottom: 6px;
+    }
+    .desc {
+      font-size: 12px;
+      color: #9ca3af;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <div class="badge">NEXUS Logo & Kısayol Laboratuvarı</div>
+    <h1>10 Sade, Modern ve Şık İkon Görseli</h1>
+    <p>NEXUS Cam Masaüstü Başlatıcısı için özel tasarlanmış vektörel görsel konseptler. Beğendiğiniz numarayı seçerek masaüstü kısayoluna doğrudan uygulayabilirsiniz.</p>
+  </div>
+
+  <div class="grid">
+
+    <!-- 1. NEXUS PRISM -->
+    <div class="card">
+      <span class="num">#01</span>
+      <div class="icon-box">
+        <svg width="72" height="72" viewBox="0 0 100 100" fill="none">
+          <defs>
+            <linearGradient id="pGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#2dd4bf"/>
+              <stop offset="100%" stop-color="#0284c7"/>
+            </linearGradient>
+            <linearGradient id="pGrad2" x1="100%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#ffffff" stop-opacity="0.9"/>
+              <stop offset="100%" stop-color="#14b8a6" stop-opacity="0.2"/>
+            </linearGradient>
+          </defs>
+          <polygon points="50,12 85,32 85,68 50,88 15,68 15,32" stroke="url(#pGrad1)" stroke-width="3" fill="rgba(20, 184, 166, 0.08)"/>
+          <polygon points="50,12 50,50 85,68" stroke="rgba(255,255,255,0.4)" stroke-width="1.5" fill="url(#pGrad2)"/>
+          <polygon points="50,12 15,68 50,50" stroke="rgba(255,255,255,0.3)" stroke-width="1.5" fill="rgba(2, 132, 199, 0.15)"/>
+          <polygon points="50,50 85,32 15,32" stroke="rgba(45, 212, 191, 0.5)" stroke-width="1.5" fill="rgba(255,255,255,0.05)"/>
+          <circle cx="50" cy="50" r="4" fill="#ffffff" filter="drop-shadow(0 0 6px #2dd4bf)"/>
+        </svg>
+      </div>
+      <div class="title">Nexus Prism</div>
+      <div class="desc">Altıgen kristal prizma; nane yeşili ve safir kırılmalarıyla saydam cam estetiği.</div>
+    </div>
+
+    <!-- 2. QUANTUM CORE -->
+    <div class="card">
+      <span class="num">#02</span>
+      <div class="icon-box">
+        <svg width="72" height="72" viewBox="0 0 100 100" fill="none">
+          <defs>
+            <linearGradient id="qcGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#06b6d4"/>
+              <stop offset="100%" stop-color="#10b981"/>
+            </linearGradient>
+          </defs>
+          <ellipse cx="50" cy="50" rx="38" ry="15" transform="rotate(-30 50 50)" stroke="url(#qcGrad1)" stroke-width="2.5" stroke-dasharray="6 3"/>
+          <ellipse cx="50" cy="50" rx="38" ry="15" transform="rotate(30 50 50)" stroke="rgba(255,255,255,0.7)" stroke-width="2"/>
+          <circle cx="50" cy="50" r="9" fill="url(#qcGrad1)"/>
+          <circle cx="50" cy="50" r="4.5" fill="#ffffff" filter="drop-shadow(0 0 8px #10b981)"/>
+        </svg>
+      </div>
+      <div class="title">Quantum Core</div>
+      <div class="desc">İki ultra ince orbital yörünge ve merkezde parlayan minimal kuantum çekirdeği.</div>
+    </div>
+
+    <!-- 3. GLASS MONOLITH -->
+    <div class="card">
+      <span class="num">#03</span>
+      <div class="icon-box">
+        <svg width="72" height="72" viewBox="0 0 100 100" fill="none">
+          <rect x="32" y="15" width="36" height="70" rx="10" fill="rgba(255, 255, 255, 0.08)" stroke="rgba(255, 255, 255, 0.3)" stroke-width="2"/>
+          <line x1="62" y1="20" x2="62" y2="80" stroke="#2dd4bf" stroke-width="3" stroke-linecap="round" filter="drop-shadow(0 0 6px #2dd4bf)"/>
+          <circle cx="44" cy="30" r="3" fill="rgba(255,255,255,0.6)"/>
+          <circle cx="44" cy="42" r="3" fill="rgba(255,255,255,0.6)"/>
+          <circle cx="44" cy="54" r="3" fill="rgba(255,255,255,0.6)"/>
+        </svg>
+      </div>
+      <div class="title">Glass Monolith</div>
+      <div class="desc">Ekranın sağ 1/3 panelini temsil eden dikey buzlu cam blok ve neon ışık şeridi.</div>
+    </div>
+
+    <!-- 4. ORIGAMI 'N' -->
+    <div class="card">
+      <span class="num">#04</span>
+      <div class="icon-box">
+        <svg width="72" height="72" viewBox="0 0 100 100" fill="none">
+          <defs>
+            <linearGradient id="nGrad1" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#2dd4bf"/>
+              <stop offset="100%" stop-color="#0284c7"/>
+            </linearGradient>
+            <linearGradient id="nGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#ffffff"/>
+              <stop offset="100%" stop-color="#14b8a6"/>
+            </linearGradient>
+          </defs>
+          <path d="M25 22 L40 22 L40 78 L25 78 Z" fill="url(#nGrad1)"/>
+          <path d="M60 22 L75 22 L75 78 L60 78 Z" fill="url(#nGrad1)" opacity="0.8"/>
+          <polygon points="30,22 45,22 70,78 55,78" fill="url(#nGrad2)" filter="drop-shadow(0 0 8px rgba(45,212,191,0.5))"/>
+        </svg>
+      </div>
+      <div class="title">Origami 'N'</div>
+      <div class="desc">Fütüristik, katmanlı cam origami şeklinde kıvrılan ultra-modern 'N' harfi.</div>
+    </div>
+
+    <!-- 5. ORBITAL PORTAL -->
+    <div class="card">
+      <span class="num">#05</span>
+      <div class="icon-box">
+        <svg width="72" height="72" viewBox="0 0 100 100" fill="none">
+          <circle cx="50" cy="50" r="34" stroke="rgba(255,255,255,0.25)" stroke-width="2"/>
+          <path d="M 50 16 A 34 34 0 0 1 84 50" stroke="#2dd4bf" stroke-width="3.5" stroke-linecap="round" filter="drop-shadow(0 0 8px #2dd4bf)"/>
+          <circle cx="50" cy="50" r="16" fill="rgba(20, 184, 166, 0.12)" stroke="rgba(45, 212, 191, 0.5)" stroke-width="1.5"/>
+          <circle cx="50" cy="50" r="5" fill="#ffffff"/>
+        </svg>
+      </div>
+      <div class="title">Orbital Portal</div>
+      <div class="desc">Halka portal; sağ üstte kenetlenme çentiği ve merkez odak noktası.</div>
+    </div>
+
+    <!-- 6. MATRIX DOT GRID -->
+    <div class="card">
+      <span class="num">#06</span>
+      <div class="icon-box">
+        <svg width="72" height="72" viewBox="0 0 100 100" fill="none">
+          <!-- 3x3 Dots -->
+          <circle cx="30" cy="30" r="4" fill="rgba(255,255,255,0.3)"/>
+          <circle cx="50" cy="30" r="4" fill="rgba(255,255,255,0.3)"/>
+          <circle cx="70" cy="30" r="6" fill="#2dd4bf" filter="drop-shadow(0 0 8px #2dd4bf)"/>
+          
+          <circle cx="30" cy="50" r="4" fill="rgba(255,255,255,0.3)"/>
+          <circle cx="50" cy="50" r="6" fill="#ffffff" filter="drop-shadow(0 0 8px #38bdf8)"/>
+          <circle cx="70" cy="50" r="4" fill="rgba(255,255,255,0.3)"/>
+
+          <circle cx="30" cy="70" r="4" fill="rgba(255,255,255,0.3)"/>
+          <circle cx="50" cy="70" r="4" fill="rgba(255,255,255,0.3)"/>
+          <circle cx="70" cy="70" r="4" fill="rgba(255,255,255,0.3)"/>
+
+          <!-- Laser Connection -->
+          <line x1="50" y1="50" x2="70" y2="30" stroke="#2dd4bf" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="title">Matrix Dot Grid</div>
+      <div class="desc">3x3 mikro ızgara; kütüphaneyi ve tek tıkla bağlantıyı simgeleyen lazer köprüsü.</div>
+    </div>
+
+    <!-- 7. FROSTED SHARD -->
+    <div class="card">
+      <span class="num">#07</span>
+      <div class="icon-box">
+        <svg width="72" height="72" viewBox="0 0 100 100" fill="none">
+          <defs>
+            <linearGradient id="shGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#a7f3d0"/>
+              <stop offset="50%" stop-color="#14b8a6"/>
+              <stop offset="100%" stop-color="#0f172a"/>
+            </linearGradient>
+          </defs>
+          <path d="M50 14 L80 40 L65 84 L22 65 Z" fill="url(#shGrad)" opacity="0.35" stroke="rgba(255,255,255,0.5)" stroke-width="2"/>
+          <path d="M50 14 L80 40 L50 55 Z" fill="rgba(255,255,255,0.7)"/>
+          <line x1="50" y1="14" x2="65" y2="84" stroke="#2dd4bf" stroke-width="2.5" filter="drop-shadow(0 0 6px #2dd4bf)"/>
+        </svg>
+      </div>
+      <div class="title">Frosted Shard</div>
+      <div class="desc">Tester-Tracker stilinde aerodinamik buzlu cam kristali ve parlayan omurga.</div>
+    </div>
+
+    <!-- 8. LAYER STACK -->
+    <div class="card">
+      <span class="num">#08</span>
+      <div class="icon-box">
+        <svg width="72" height="72" viewBox="0 0 100 100" fill="none">
+          <!-- Layer 1 -->
+          <polygon points="50,18 80,32 50,46 20,32" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>
+          <!-- Layer 2 -->
+          <polygon points="50,34 80,48 50,62 20,48" fill="rgba(20, 184, 166, 0.2)" stroke="rgba(45, 212, 191, 0.4)" stroke-width="1.5"/>
+          <!-- Layer 3 -->
+          <polygon points="50,50 80,64 50,78 20,64" fill="rgba(2, 132, 199, 0.4)" stroke="#38bdf8" stroke-width="2"/>
+          <polygon points="46,59 56,64 46,69" fill="#ffffff" filter="drop-shadow(0 0 4px #ffffff)"/>
+        </svg>
+      </div>
+      <div class="title">Layer Stack</div>
+      <div class="desc">Üst üste binen 3 cam plaka; çalışma gruplarını ve tek tıkla toplu başlatmayı simgeler.</div>
+    </div>
+
+    <!-- 9. APEX DELTA -->
+    <div class="card">
+      <span class="num">#09</span>
+      <div class="icon-box">
+        <svg width="72" height="72" viewBox="0 0 100 100" fill="none">
+          <defs>
+            <linearGradient id="dGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#2dd4bf"/>
+              <stop offset="100%" stop-color="#0284c7"/>
+            </linearGradient>
+          </defs>
+          <path d="M50 20 L80 75 Q78 80 70 80 L30 80 Q22 80 20 75 Z" fill="rgba(20, 184, 166, 0.12)" stroke="url(#dGrad)" stroke-width="3" stroke-linejoin="round"/>
+          <circle cx="50" cy="58" r="8" fill="#ffffff" filter="drop-shadow(0 0 10px #2dd4bf)"/>
+        </svg>
+      </div>
+      <div class="title">Apex Delta</div>
+      <div class="desc">Köşeleri yumuşatılmış cam üçgen; hız, başlatma ve odaklanma hissi verir.</div>
+    </div>
+
+    <!-- 10. ECLIPSE RIM -->
+    <div class="card">
+      <span class="num">#10</span>
+      <div class="icon-box">
+        <svg width="72" height="72" viewBox="0 0 100 100" fill="none">
+          <circle cx="50" cy="50" r="35" fill="#0b0f19" stroke="rgba(255,255,255,0.15)" stroke-width="1.5"/>
+          <path d="M 50 15 A 35 35 0 0 1 75 75" stroke="#2dd4bf" stroke-width="4" stroke-linecap="round" filter="drop-shadow(0 0 10px #2dd4bf)"/>
+          <circle cx="68" cy="30" r="3.5" fill="#ffffff" filter="drop-shadow(0 0 6px #ffffff)"/>
+        </svg>
+      </div>
+      <div class="title">Eclipse Rim</div>
+      <div class="desc">Füme disk üzerinde sağ kenardan taşan neon mint halesi; masaüstü kenar widget'ı formu.</div>
+    </div>
+
+  </div>
+
+</body>
+</html>
