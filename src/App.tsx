@@ -964,7 +964,7 @@ export default function App() {
   // Kart arka plan rengi ve saydamlığı, Nexus ana penceresinin kendi zemin tonu (bodyBg) ve saydamlığıyla birebir eşlenir
   const computedCardBg = hexToRgba(currentTheme.bodyBg, bgAlpha);
 
-  const computedOverlay = glassOpacity >= 25 ? currentTheme.gradientOverlay : 'none';
+  const computedOverlay = 'none';
 
   const isDock = layoutMode === 'right-dock';
   const isFloating = layoutMode === 'floating-widget';
