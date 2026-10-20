@@ -1073,17 +1073,16 @@ export default function App() {
               setEditingApp(null);
               setIsAppModalOpen(true);
             }}
-            className="px-2.5 py-1 rounded-xl text-xs font-semibold flex items-center gap-1 shadow-sm transition-all hover:scale-102 active:scale-95"
+            className="p-1.5 rounded-xl border transition-all hover:scale-105 active:scale-95 shadow-xs"
             style={{
-              background: currentTheme.buttonPlay,
-              color: '#ffffff',
-              boxShadow: currentTheme.isLight ? '0 2px 10px rgba(13, 148, 136, 0.3)' : '0 2px 10px rgba(0, 0, 0, 0.3)',
-              border: '1px solid rgba(255, 255, 255, 0.4)'
+              backgroundColor: computedCardBg,
+              borderColor: currentTheme.cardBorder,
+              color: currentTheme.textPrimary,
+              backdropFilter: currentTheme.glassBackdrop
             }}
             title="Yeni Uygulama Ekle"
           >
-            <Plus size={13} />
-            <span className="text-[11px]">Ekle</span>
+            <Plus size={14} />
           </button>
 
           <button
