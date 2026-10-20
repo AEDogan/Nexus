@@ -452,10 +452,12 @@ export default function App() {
     launchingSetRef.current.add(app.id);
 
     try {
+      let updatedPath: string | undefined = undefined;
       if (typeof window !== 'undefined' && (window as any).electronAPI?.launchApp) {
         try {
           const res = await (window as any).electronAPI.launchApp({
             path: app.path,
+            name: app.name,
             arguments: app.arguments,
             workingDirectory: app.workingDirectory,
             type: app.type
@@ -464,6 +466,10 @@ export default function App() {
           if (res && res.success === false) {
             addToast('Uygulama Başlatılamadı', res.error || 'Bilinmeyen hata', 'error');
             return;
+          }
+
+          if (res && res.updatedPath) {
+            updatedPath = res.updatedPath;
           }
         } catch (err: any) {
           console.error('Launch failed via Electron', err);
@@ -477,6 +483,7 @@ export default function App() {
           item.id === app.id
             ? {
                 ...item,
+                path: updatedPath || item.path,
                 status: 'running',
                 lastRun: 'Az önce',
                 lastRunTime: Date.now(),
@@ -949,17 +956,13 @@ export default function App() {
 
   const factor = Math.max(0, Math.min(100, glassOpacity)) / 100;
   // Dynamic Card Transparency: at 0% opacity cards are crystal sheer (0.10 - 0.15), at 80% default they are clean translucent glass (~0.35 - 0.45), at 100% solid
-  const minCardAlpha = currentTheme.isLight ? 0.08 : 0.06;
-  const maxCardAlpha = currentTheme.isLight ? 0.65 : 0.60;
-  const cardAlpha = minCardAlpha + (maxCardAlpha - minCardAlpha) * factor;
-  const computedCardBg = currentTheme.isLight
-    ? `rgba(255, 255, 255, ${cardAlpha.toFixed(2)})`
-    : `rgba(16, 22, 34, ${cardAlpha.toFixed(2)})`;
-
   const minBgAlpha = currentTheme.isLight ? 0.02 : 0.05;
   const maxBgAlpha = currentTheme.isLight ? 0.82 : 0.88;
   const bgAlpha = minBgAlpha + (maxBgAlpha - minBgAlpha) * factor;
   const computedBg = hexToRgba(currentTheme.bodyBg, bgAlpha);
+
+  // Kart arka plan rengi ve saydamlığı, Nexus ana penceresinin kendi zemin tonu (bodyBg) ve saydamlığıyla birebir eşlenir
+  const computedCardBg = hexToRgba(currentTheme.bodyBg, bgAlpha);
 
   const computedOverlay = glassOpacity >= 25 ? currentTheme.gradientOverlay : 'none';
 
@@ -989,7 +992,7 @@ export default function App() {
       onDragOver={handleWindowDragOver}
       onDragLeave={handleWindowDragLeave}
       onDrop={handleWindowDrop}
-      className={`min-h-screen font-sans flex flex-col selection:bg-teal-500/20 select-none overflow-x-hidden relative transition-colors duration-300 rounded-[32px] overflow-hidden ${
+      className={`min-h-screen font-sans flex flex-col selection:bg-teal-500/20 select-none overflow-x-hidden relative transition-colors duration-300 rounded-[16px] overflow-hidden ${
         isDock ? 'p-3 sm:p-4' : 'p-5 sm:p-6'
       }`}
       style={{
@@ -1184,6 +1187,10 @@ export default function App() {
           onMouseLeave={handleCatMouseUpOrLeave}
           onWheel={handleCatWheel}
           className="flex items-center gap-1.5 overflow-x-auto scrollbar-hide flex-1 min-w-0 cursor-grab active:cursor-grabbing py-1.5 px-1 -my-1.5 -mx-1"
+          style={{
+            WebkitMaskImage: `linear-gradient(to right, ${canScrollLeft ? 'transparent 0px, black 28px' : 'black 0px'}, ${canScrollRight ? 'black calc(100% - 28px), transparent 100%' : 'black 100%'})`,
+            maskImage: `linear-gradient(to right, ${canScrollLeft ? 'transparent 0px, black 28px' : 'black 0px'}, ${canScrollRight ? 'black calc(100% - 28px), transparent 100%' : 'black 100%'})`
+          }}
         >
           {categories.map((cat) => {
             const isActive = activeCategory === cat;

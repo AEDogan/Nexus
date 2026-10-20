@@ -390,17 +390,106 @@ app.on('will-quit', () => {
 
 // --- IPC HANDLERS ---
 
+// Helper to locate a moved or renamed shortcut/executable on the desktop or common directories
+function resolveMovedFilePath(targetPath, appName) {
+  try {
+    if (!targetPath || typeof targetPath !== 'string') return null;
+    const clean = expandEnv(targetPath.trim().replace(/^"|"$/g, ''));
+    if (fsSync.existsSync(clean)) return clean;
+
+    const baseName = path.basename(clean); // e.g. "Discord.lnk"
+    const nameWithoutExt = path.basename(clean, path.extname(clean)); // e.g. "Discord"
+    const ext = path.extname(clean).toLowerCase(); // e.g. ".lnk"
+
+    // Search roots: User Desktop, Public Desktop, User Start Menu, ProgramData Start Menu
+    const searchRoots = [];
+    try {
+      const desktop = app.getPath('desktop');
+      if (desktop && fsSync.existsSync(desktop)) searchRoots.push(desktop);
+    } catch (_) {}
+    if (process.env.PUBLIC) {
+      const pubDesktop = path.join(process.env.PUBLIC, 'Desktop');
+      if (fsSync.existsSync(pubDesktop)) searchRoots.push(pubDesktop);
+    }
+    if (process.env.APPDATA) {
+      const startMenu = path.join(process.env.APPDATA, 'Microsoft', 'Windows', 'Start Menu', 'Programs');
+      if (fsSync.existsSync(startMenu)) searchRoots.push(startMenu);
+    }
+    if (process.env.ProgramData) {
+      const commonStart = path.join(process.env.ProgramData, 'Microsoft', 'Windows', 'Start Menu', 'Programs');
+      if (fsSync.existsSync(commonStart)) searchRoots.push(commonStart);
+    }
+
+    // Breadth-first search in desktop and subfolders up to depth 3
+    for (const root of searchRoots) {
+      const queue = [{ dir: root, depth: 0 }];
+      const visited = new Set();
+
+      while (queue.length > 0) {
+        const { dir, depth } = queue.shift();
+        const normDir = dir.toLowerCase();
+        if (visited.has(normDir)) continue;
+        visited.add(normDir);
+
+        let entries;
+        try {
+          entries = fsSync.readdirSync(dir, { withFileTypes: true });
+        } catch (_) {
+          continue;
+        }
+
+        for (const entry of entries) {
+          const fullPath = path.join(dir, entry.name);
+          if (entry.isFile()) {
+            const entryExt = path.extname(entry.name).toLowerCase();
+            const entryNameNoExt = path.basename(entry.name, entryExt);
+
+            // Exact filename match (e.g. moved into a subfolder on Desktop)
+            if (entry.name.toLowerCase() === baseName.toLowerCase()) {
+              return fullPath;
+            }
+            // Match without extension if extensions are compatible (.lnk/.url/.exe)
+            if (
+              (entryExt === ext || entryExt === '.lnk' || entryExt === '.url' || entryExt === '.exe') &&
+              (entryNameNoExt.toLowerCase() === nameWithoutExt.toLowerCase() ||
+               (appName && entryNameNoExt.toLowerCase() === appName.toLowerCase()))
+            ) {
+              return fullPath;
+            }
+          } else if (entry.isDirectory() && depth < 3) {
+            // Check subfolders (e.g. Desktop\Oyunlar, Desktop\Klasör)
+            queue.push({ dir: fullPath, depth: depth + 1 });
+          }
+        }
+      }
+    }
+  } catch (err) {
+    console.warn('Error resolving moved file path:', err);
+  }
+  return null;
+}
+
 // 1. Launch App
 ipcMain.handle('launch-app', async (event, appConfig) => {
   if (!isTrustedSender(event)) return { success: false, error: 'Unauthorized IPC sender' };
   try {
-    const { path: appPath, arguments: args, workingDirectory, type } = appConfig || {};
+    let { path: appPath, arguments: args, workingDirectory, type, name: appName } = appConfig || {};
     if (!appPath || typeof appPath !== 'string') return { success: false, error: 'Path not specified' };
     if (appPath.includes('\0')) return { success: false, error: 'Invalid path: null byte detected' };
 
     // Security Hardening: Reject dangerous protocol schemes and script execution tricks
     if (/^(javascript|vbscript|data|ms-msdt|search-ms):/i.test(appPath.trim())) {
       return { success: false, error: 'Prohibited protocol handler' };
+    }
+
+    // Auto-healing: If the file was moved to another folder or renamed, resolve its new location
+    let updatedPath = null;
+    if (!fsSync.existsSync(appPath)) {
+      const resolved = resolveMovedFilePath(appPath, appName);
+      if (resolved && fsSync.existsSync(resolved)) {
+        appPath = resolved;
+        updatedPath = resolved;
+      }
     }
 
     let argsArray = [];
@@ -450,7 +539,7 @@ ipcMain.handle('launch-app', async (event, appConfig) => {
       if (errMsg) {
         throw new Error(errMsg);
       }
-      return { success: true };
+      return { success: true, updatedPath };
     } else {
       child = spawn(appPath, argsArray, {
         cwd,
@@ -464,7 +553,7 @@ ipcMain.handle('launch-app', async (event, appConfig) => {
     });
 
     child.unref();
-    return { success: true };
+    return { success: true, updatedPath };
   } catch (error) {
     console.error("Failed to launch app", error);
     return { success: false, error: error.message };
