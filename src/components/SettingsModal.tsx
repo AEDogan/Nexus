@@ -1,7 +1,7 @@
 import React from 'react';
 import { ThemeConfig, ThemeId, LayoutMode } from '../types';
 import { THEMES } from '../themes';
-import { NexusLogo, NEXUS_LOGOS, NexusLogoStyle } from './NexusLogo';
+import { NexusLogo, NexusLogoStyle } from './NexusLogo';
 import { 
   Settings, 
   X, 
@@ -26,9 +26,7 @@ interface SettingsModalProps {
   onGlassOpacityChange: (opacity: number) => void;
   layoutMode?: LayoutMode;
   onLayoutModeChange?: (mode: LayoutMode) => void;
-  currentLogo?: NexusLogoStyle;
-  onSelectLogo?: (logoId: NexusLogoStyle) => void;
-  autoStart: boolean;
+    autoStart: boolean;
   onToggleAutoStart: () => void;
   autoDiscover: boolean;
   onToggleAutoDiscover: () => void;
