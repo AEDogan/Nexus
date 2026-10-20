@@ -10,8 +10,7 @@ export const THEMES: Record<ThemeId, ThemeConfig> = {
     isLight: true,
     previewBg: 'linear-gradient(135deg, #059669 0%, #0d9488 50%, #06b6d4 100%)',
     bodyBg: '#f0fdf9',
-    gradientOverlay: `
-      radial-gradient(at 0% 0%, rgba(20, 184, 166, 0.22) 0px, transparent 50%),
+    gradientOverlay: 'none', rgba(20, 184, 166, 0.22) 0px, transparent 50%),
       radial-gradient(at 100% 0%, rgba(6, 182, 212, 0.22) 0px, transparent 50%),
       radial-gradient(at 50% 100%, rgba(16, 185, 129, 0.16) 0px, transparent 50%),
       radial-gradient(at 50% 50%, rgba(255, 255, 255, 0.88) 0px, transparent 100%)
@@ -42,8 +41,7 @@ export const THEMES: Record<ThemeId, ThemeConfig> = {
     isLight: true,
     previewBg: 'linear-gradient(135deg, #38bdf8 0%, #0284c7 50%, #2563eb 100%)',
     bodyBg: '#f0f9ff',
-    gradientOverlay: `
-      radial-gradient(at 10% 10%, rgba(56, 189, 248, 0.22) 0px, transparent 50%),
+    gradientOverlay: 'none', rgba(56, 189, 248, 0.22) 0px, transparent 50%),
       radial-gradient(at 90% 20%, rgba(14, 165, 233, 0.18) 0px, transparent 50%),
       radial-gradient(at 50% 100%, rgba(125, 211, 252, 0.25) 0px, transparent 60%)
     `,
@@ -73,8 +71,7 @@ export const THEMES: Record<ThemeId, ThemeConfig> = {
     isLight: true,
     previewBg: 'linear-gradient(135deg, #f472b6 0%, #c084fc 40%, #60a5fa 70%, #34d399 100%)',
     bodyBg: '#faf5ff',
-    gradientOverlay: `
-      radial-gradient(at 0% 0%, rgba(244, 114, 182, 0.15) 0px, transparent 40%),
+    gradientOverlay: 'none', rgba(244, 114, 182, 0.15) 0px, transparent 40%),
       radial-gradient(at 100% 0%, rgba(192, 132, 252, 0.18) 0px, transparent 50%),
       radial-gradient(at 50% 100%, rgba(96, 165, 250, 0.16) 0px, transparent 50%),
       radial-gradient(at 100% 100%, rgba(52, 211, 153, 0.12) 0px, transparent 40%)
@@ -105,8 +102,7 @@ export const THEMES: Record<ThemeId, ThemeConfig> = {
     isLight: true,
     previewBg: 'linear-gradient(135deg, #ffffff 0%, #cbd5e1 100%)',
     bodyBg: '#f8fafc',
-    gradientOverlay: `
-      radial-gradient(at 50% 0%, rgba(203, 213, 225, 0.4) 0px, transparent 60%),
+    gradientOverlay: 'none', rgba(203, 213, 225, 0.4) 0px, transparent 60%),
       radial-gradient(at 100% 100%, rgba(226, 232, 240, 0.5) 0px, transparent 50%)
     `,
     cardBg: 'rgba(255, 255, 255, 0.85)',
@@ -135,8 +131,7 @@ export const THEMES: Record<ThemeId, ThemeConfig> = {
     isLight: true,
     previewBg: 'linear-gradient(135deg, #fb7185 0%, #f43f5e 50%, #fda4af 100%)',
     bodyBg: '#fff1f2',
-    gradientOverlay: `
-      radial-gradient(at 0% 0%, rgba(251, 113, 133, 0.18) 0px, transparent 50%),
+    gradientOverlay: 'none', rgba(251, 113, 133, 0.18) 0px, transparent 50%),
       radial-gradient(at 100% 100%, rgba(244, 63, 94, 0.12) 0px, transparent 50%)
     `,
     cardBg: 'rgba(255, 255, 255, 0.82)',
@@ -165,8 +160,7 @@ export const THEMES: Record<ThemeId, ThemeConfig> = {
     isLight: false,
     previewBg: 'linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%)',
     bodyBg: '#0b0f19',
-    gradientOverlay: `
-      radial-gradient(at 0% 0%, rgba(30, 41, 59, 0.45) 0px, transparent 50%),
+    gradientOverlay: 'none', rgba(30, 41, 59, 0.45) 0px, transparent 50%),
       radial-gradient(at 100% 100%, rgba(15, 23, 42, 0.65) 0px, transparent 50%),
       radial-gradient(at 50% 50%, rgba(99, 102, 241, 0.05) 0px, transparent 60%)
     `,
@@ -195,8 +189,7 @@ export const THEMES: Record<ThemeId, ThemeConfig> = {
     isLight: false,
     previewBg: 'linear-gradient(135deg, #334155, #0f172a)',
     bodyBg: '#0e1117',
-    gradientOverlay: `
-      radial-gradient(circle at 30% 20%, rgba(148, 163, 184, 0.1) 0%, transparent 55%),
+    gradientOverlay: 'none', rgba(148, 163, 184, 0.1) 0%, transparent 55%),
       radial-gradient(circle at 80% 80%, rgba(71, 85, 105, 0.08) 0%, transparent 50%)
     `,
     cardBg: 'rgba(30, 41, 59, 0.45)',
@@ -224,8 +217,7 @@ export const THEMES: Record<ThemeId, ThemeConfig> = {
     isLight: false,
     previewBg: 'linear-gradient(135deg, #1e1b4b, #030712)',
     bodyBg: '#050714',
-    gradientOverlay: `
-      radial-gradient(circle at 60% 10%, rgba(99, 102, 241, 0.12) 0%, transparent 60%),
+    gradientOverlay: 'none', rgba(99, 102, 241, 0.12) 0%, transparent 60%),
       radial-gradient(circle at 10% 80%, rgba(59, 130, 246, 0.1) 0%, transparent 50%)
     `,
     cardBg: 'rgba(30, 27, 75, 0.28)',
@@ -253,8 +245,7 @@ export const THEMES: Record<ThemeId, ThemeConfig> = {
     isLight: false,
     previewBg: 'linear-gradient(135deg, #064e3b, #1e1b4b)',
     bodyBg: '#040d0a',
-    gradientOverlay: `
-      radial-gradient(circle at 20% 0%, rgba(16, 185, 129, 0.15) 0%, transparent 50%),
+    gradientOverlay: 'none', rgba(16, 185, 129, 0.15) 0%, transparent 50%),
       radial-gradient(circle at 80% 80%, rgba(168, 85, 247, 0.12) 0%, transparent 50%)
     `,
     cardBg: 'rgba(6, 78, 59, 0.18)',
@@ -282,7 +273,7 @@ export const THEMES: Record<ThemeId, ThemeConfig> = {
     isLight: false,
     previewBg: 'linear-gradient(135deg, #262626, #0a0a0a)',
     bodyBg: '#080808',
-    gradientOverlay: 'radial-gradient(circle at 50% 30%, rgba(255, 255, 255, 0.04) 0%, transparent 70%)',
+    gradientOverlay: 'none', rgba(255, 255, 255, 0.04) 0%, transparent 70%)',
     cardBg: 'rgba(23, 23, 23, 0.85)',
     cardBorder: 'rgba(64, 64, 64, 0.45)',
     cardHoverBorder: 'rgba(115, 115, 115, 0.65)',
