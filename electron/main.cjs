@@ -242,7 +242,7 @@ function createTray() {
     icon = nativeImage.createFromPath(path.join(__dirname, '../public/nexus_icon.png'));
   }
   tray = new Tray(icon);
-  tray.setToolTip('NEXUS v1.0');
+  tray.setToolTip('NEXUS v1.1.0');
   tray.on('click', toggleWindow);
   updateTrayMenu();
 }

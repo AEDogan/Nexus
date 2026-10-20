@@ -1,7 +1,7 @@
 {
   "name": "nexus",
   "private": true,
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "NEXUS - Next-Gen Glass Widget & Application Launcher",
   "author": "NEXUS Team",
   "type": "module",
