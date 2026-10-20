@@ -55,6 +55,7 @@ export interface ThemeConfig {
   headerBorder: string;
   textPrimary: string;
   textSecondary: string;
+  textLuminous?: string;
   accent: string;
   accentBg: string;
   buttonPlay: string;

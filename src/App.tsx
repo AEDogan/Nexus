@@ -104,6 +104,29 @@ export default function App() {
     }
   }, [isPinned]);
 
+  // --- REAL-TIME ADAPTIVE DESKTOP WALLPAPER LUMINANCE ---
+  const [wallpaperIsDark, setWallpaperIsDark] = useState<boolean>(true);
+
+  useEffect(() => {
+    let cleanup: (() => void) | undefined;
+    if (typeof window !== 'undefined' && (window as any).electronAPI?.getWallpaperLuminance) {
+      (window as any).electronAPI.getWallpaperLuminance().then((res: any) => {
+        if (res && typeof res.isDark === 'boolean') {
+          setWallpaperIsDark(res.isDark);
+        }
+      }).catch(() => {});
+
+      if ((window as any).electronAPI?.onWallpaperLuminanceChanged) {
+        cleanup = (window as any).electronAPI.onWallpaperLuminanceChanged((res: any) => {
+          if (res && typeof res.isDark === 'boolean') {
+            setWallpaperIsDark(res.isDark);
+          }
+        });
+      }
+    }
+    return () => cleanup?.();
+  }, []);
+
   useEffect(() => {
     localStorage.setItem('nexus_theme', themeId);
     document.body.style.backgroundColor = 'transparent';
@@ -925,8 +948,9 @@ export default function App() {
   };
 
   const factor = Math.max(0, Math.min(100, glassOpacity)) / 100;
-  const minCardAlpha = currentTheme.isLight ? 0.22 : 0.28;
-  const maxCardAlpha = currentTheme.isLight ? 0.82 : 0.86;
+  // Dynamic Card Transparency: at 0% opacity cards are crystal sheer (0.10 - 0.15), at 80% default they are clean translucent glass (~0.35 - 0.45), at 100% solid
+  const minCardAlpha = currentTheme.isLight ? 0.08 : 0.06;
+  const maxCardAlpha = currentTheme.isLight ? 0.65 : 0.60;
   const cardAlpha = minCardAlpha + (maxCardAlpha - minCardAlpha) * factor;
   const computedCardBg = currentTheme.isLight
     ? `rgba(255, 255, 255, ${cardAlpha.toFixed(2)})`
@@ -950,6 +974,14 @@ export default function App() {
     { id: 'recently-used', label: 'Son Çalıştırılan', icon: History }
   ] as const;
 
+  const adaptiveTextColor = wallpaperIsDark
+    ? (currentTheme.textLuminous || (currentTheme.isLight ? '#f8fafc' : currentTheme.textPrimary))
+    : currentTheme.textPrimary;
+
+  const adaptiveTextShadow = wallpaperIsDark
+    ? '0 1px 2px rgba(0, 0, 0, 0.85), 0 0 1px rgba(0, 0, 0, 0.95)'
+    : '0 1px 1px rgba(255, 255, 255, 0.85)';
+
   return (
     <div
       data-testid="nexus-container"
@@ -957,7 +989,7 @@ export default function App() {
       onDragOver={handleWindowDragOver}
       onDragLeave={handleWindowDragLeave}
       onDrop={handleWindowDrop}
-      className={`min-h-screen font-sans flex flex-col selection:bg-teal-500/20 select-none overflow-x-hidden relative transition-colors duration-300 ${
+      className={`min-h-screen font-sans flex flex-col selection:bg-teal-500/20 select-none overflow-x-hidden relative transition-colors duration-300 rounded-[32px] overflow-hidden ${
         isDock ? 'p-3 sm:p-4' : 'p-5 sm:p-6'
       }`}
       style={{
@@ -1416,10 +1448,9 @@ export default function App() {
       {recentApps.length > 0 && (
         <div
           data-testid="recent-apps-section"
-          className="mb-3.5 rounded-2xl border transition-all duration-300 overflow-hidden shadow-xs"
+          className="mb-3.5 rounded-2xl transition-all duration-300 overflow-hidden shadow-xs relative"
           style={{
             backgroundColor: computedCardBg,
-            borderColor: currentTheme.cardBorder,
             backdropFilter: currentTheme.glassBackdrop
           }}
         >
@@ -1432,15 +1463,20 @@ export default function App() {
           >
             <div className="flex items-center gap-2">
               <Clock size={13} style={{ color: currentTheme.accent }} />
-              <span className="text-xs font-bold tracking-wider uppercase" style={{ color: currentTheme.textPrimary }}>
+              <span 
+                className="text-xs font-bold tracking-wider uppercase" 
+                style={{ 
+                  color: adaptiveTextColor,
+                  textShadow: adaptiveTextShadow
+                }}
+              >
                 Son Kullanılanlar
               </span>
               <span
                 className="text-[9px] font-mono px-1.5 py-0.5 rounded-full font-semibold"
                 style={{
                   backgroundColor: currentTheme.badgeBg,
-                  color: currentTheme.accent,
-                  border: `1px solid ${currentTheme.cardBorder}`
+                  color: currentTheme.accent
                 }}
               >
                 {recentApps.length}
@@ -1452,7 +1488,7 @@ export default function App() {
               data-testid="recent-apps-chevron-btn"
               className="p-1 rounded-lg opacity-60 hover:opacity-100 transition-transform duration-200"
               style={{
-                color: currentTheme.textPrimary,
+                color: adaptiveTextColor,
                 transform: isRecentOpen ? 'rotate(0deg)' : 'rotate(-90deg)'
               }}
             >
@@ -1463,8 +1499,7 @@ export default function App() {
           {/* HORIZONTAL LOGOS ROW (COLLAPSIBLE CONTENT) */}
           {isRecentOpen && (
             <div
-              className="px-3.5 pb-3 pt-1 border-t flex items-center gap-3 overflow-x-auto custom-scrollbar animate-in slide-in-from-top-1 duration-200"
-              style={{ borderColor: currentTheme.cardBorder }}
+              className="px-3.5 pb-3 pt-1 flex items-center gap-3 overflow-x-auto custom-scrollbar animate-in slide-in-from-top-1 duration-200"
             >
               {recentApps.map((app) => {
                 const formattedTime = app.lastRunTime 
@@ -1476,21 +1511,20 @@ export default function App() {
                     key={app.id}
                     data-testid={`recent-item-${app.id}`}
                     onClick={() => handleLaunch(app)}
-                    className="flex flex-col items-center gap-1 p-1.5 rounded-xl cursor-pointer hover:bg-teal-500/10 transition-all duration-200 group shrink-0 w-16"
+                    className="flex flex-col items-center gap-1.5 p-1.5 rounded-2xl cursor-pointer hover:bg-teal-500/10 active:scale-95 transition-all duration-150 group shrink-0 w-16"
                     title={`${app.name} (Son: ${formattedTime})`}
                   >
                     <div
-                      className="w-10 h-10 rounded-2xl flex items-center justify-center shrink-0 border shadow-xs group-hover:scale-105 transition-transform duration-200"
-                      style={{
-                        backgroundColor: currentTheme.isLight ? '#ffffff' : '#0f172a',
-                        borderColor: currentTheme.cardBorder
-                      }}
+                      className="w-9 h-9 flex items-center justify-center shrink-0 drop-shadow-sm group-hover:scale-110 group-active:scale-90 transition-transform duration-150"
                     >
-                      <AppIcon name={app.name} icon={app.icon} customUrl={app.iconDataUrl} iconDataUrl={app.iconDataUrl} size={22} />
+                      <AppIcon name={app.name} icon={app.icon} customUrl={app.iconDataUrl} iconDataUrl={app.iconDataUrl} size={28} />
                     </div>
                     <span
-                      className="text-[10px] font-semibold text-center truncate w-full drop-shadow-sm group-hover:text-teal-400 transition-colors"
-                      style={{ color: currentTheme.textPrimary }}
+                      className="text-[10px] font-bold text-center truncate w-full group-hover:text-teal-400 transition-colors"
+                      style={{ 
+                        color: adaptiveTextColor,
+                        textShadow: adaptiveTextShadow
+                      }}
                     >
                       {app.name}
                     </span>
@@ -1555,6 +1589,7 @@ export default function App() {
                   ...currentTheme,
                   cardBg: computedCardBg
                 }}
+                wallpaperIsDark={wallpaperIsDark}
                 draggable={true}
                 isDragging={draggedAppId === app.id}
                 isDragOver={dragOverAppId === app.id}

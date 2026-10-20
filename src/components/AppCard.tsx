@@ -31,6 +31,7 @@ interface AppCardProps {
   onEdit: (app: NexusApp) => void;
   onOpenLocation: (app: NexusApp) => void;
   onRemove: (app: NexusApp) => void;
+  wallpaperIsDark?: boolean;
 }
 
 export const AppCard: React.FC<AppCardProps> = ({
@@ -41,6 +42,7 @@ export const AppCard: React.FC<AppCardProps> = ({
   draggable = true,
   isDragging = false,
   isDragOver = false,
+  wallpaperIsDark,
   onDragStart,
   onDragOver,
   onDragLeave,
@@ -61,6 +63,13 @@ export const AppCard: React.FC<AppCardProps> = ({
   const [triggerRect, setTriggerRect] = React.useState<DOMRect | null>(null);
   const isMenuOpen = activeMenuId === app.id;
   const isRunning = app.status === 'running';
+  const isDarkBg = wallpaperIsDark !== undefined ? wallpaperIsDark : !theme.isLight;
+  const textColor = isDarkBg
+    ? (theme.textLuminous || (theme.isLight ? '#f8fafc' : theme.textPrimary))
+    : theme.textPrimary;
+  const textShadow = isDarkBg
+    ? '0 1px 2px rgba(0, 0, 0, 0.85), 0 0 1px rgba(0, 0, 0, 0.95)'
+    : '0 1px 1px rgba(255, 255, 255, 0.85)';
 
   React.useEffect(() => {
     if (isMenuOpen && menuBtnRef.current) {
@@ -101,21 +110,21 @@ export const AppCard: React.FC<AppCardProps> = ({
         dragOccurredRef.current = true;
         onDragEnd?.(e);
       }}
-      className={`group no-drag relative rounded-2xl px-3 py-2.5 transition-all duration-200 flex items-center justify-between cursor-pointer select-none ${
+      className={`group no-drag relative rounded-2xl px-3 py-2.5 transition-all duration-200 flex items-center justify-between cursor-pointer select-none active:scale-[0.97] active:opacity-90 ${
         isDragging ? 'opacity-40 scale-95' : 'hover:scale-[1.015]'
       } ${
-        isDragOver ? 'ring-2 ring-teal-400 border-teal-400' : ''
+        isDragOver ? 'ring-2 ring-teal-400' : ''
       }`}
       style={{
         backgroundColor: theme.cardBg,
-        border: isDragOver ? '1.5px solid #2dd4bf' : `1px solid ${theme.cardBorder}`,
-        backdropFilter: 'blur(16px)',
-        WebkitBackdropFilter: 'blur(16px)',
+        border: isDragOver ? '2px solid #2dd4bf' : 'none',
+        backdropFilter: 'blur(20px)',
+        WebkitBackdropFilter: 'blur(20px)',
         zIndex: isMenuOpen ? 50 : 1,
         minHeight: '52px',
         boxShadow: isRunning 
-          ? `0 0 20px -4px ${theme.accentBg}, 0 4px 18px rgba(0,0,0,0.25)` 
-          : (theme.cardShadow || '0 4px 20px 0 rgba(0, 0, 0, 0.2)'),
+          ? `0 10px 25px -4px rgba(16, 185, 129, 0.25)` 
+          : (theme.cardShadow || '0 4px 16px rgba(0, 0, 0, 0.08)'),
       }}
       onClick={() => onLaunch(app)}
       title={`${app.name} (Tıkla ve Başlat)`}
@@ -124,14 +133,7 @@ export const AppCard: React.FC<AppCardProps> = ({
       <div 
         className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"
         style={{
-          background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, transparent 60%)'
-        }}
-      />
-      {/* Subtle top edge metallic highlight */}
-      <div 
-        className="absolute top-0 left-0 right-0 h-[1px] opacity-40 group-hover:opacity-80 transition-opacity"
-        style={{
-          background: 'linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.35) 50%, transparent 100%)'
+          background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, transparent 60%)'
         }}
       />
 
@@ -146,23 +148,22 @@ export const AppCard: React.FC<AppCardProps> = ({
           <GripVertical size={13} />
         </div>
 
-        {/* Icon Container (Solid Opaque - Never affected by transparency) */}
+        {/* Icon (Borderless & Transparent - Desktop Natural Look) */}
         <div
-          className="w-8 h-8 rounded-xl shadow-xs flex items-center justify-center shrink-0 transition-transform group-hover:scale-105 duration-200"
-          style={{
-            backgroundColor: theme.isLight ? '#ffffff' : '#0f172a',
-            border: `1px solid ${theme.cardBorder}`
-          }}
+          className="w-7 h-7 flex items-center justify-center shrink-0 transition-transform group-hover:scale-110 group-active:scale-95 duration-150 drop-shadow-sm"
         >
-          <AppIcon name={app.name} icon={app.icon} customUrl={app.iconDataUrl} iconDataUrl={app.iconDataUrl} size={20} />
+          <AppIcon name={app.name} icon={app.icon} customUrl={app.iconDataUrl} iconDataUrl={app.iconDataUrl} size={24} />
         </div>
 
         {/* Name */}
         <div className="min-w-0 flex-1">
           <div className="flex items-center gap-1.5">
             <h3
-              className="text-xs font-semibold tracking-wide truncate transition-colors drop-shadow-sm"
-              style={{ color: theme.textPrimary }}
+              className="text-xs font-semibold tracking-wide truncate transition-colors"
+              style={{ 
+                color: textColor,
+                textShadow
+              }}
               title={app.name}
             >
               {app.name}
@@ -195,7 +196,7 @@ export const AppCard: React.FC<AppCardProps> = ({
             onOpenMenu(app.id, e);
           }}
           className="p-1 rounded-lg opacity-40 group-hover:opacity-100 hover:bg-white/10 transition-all"
-          style={{ color: theme.textPrimary }}
+          style={{ color: textColor }}
           title="Seçenekler"
         >
           <MoreVertical size={14} />

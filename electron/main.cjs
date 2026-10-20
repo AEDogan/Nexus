@@ -17,40 +17,83 @@ function loadSavedBounds() {
     const filePath = getBoundsFilePath();
     if (!fsSync.existsSync(filePath)) return null;
     const data = JSON.parse(fsSync.readFileSync(filePath, 'utf-8'));
-    if (
-      !data ||
-      typeof data.width !== 'number' ||
-      typeof data.height !== 'number' ||
-      typeof data.x !== 'number' ||
-      typeof data.y !== 'number'
-    ) {
+    if (!data || typeof data.width !== 'number' || typeof data.height !== 'number') {
       return null;
     }
 
-    // Verify the saved position is still visible on at least one currently active display
-    const displays = screen.getAllDisplays();
-    const isVisible = displays.some((display) => {
-      const { x, y, width, height } = display.workArea;
-      return (
-        data.x + data.width > x + 50 &&
-        data.x < x + width - 50 &&
-        data.y + data.height > y + 50 &&
-        data.y < y + height - 50
-      );
-    });
+    const primaryDisplay = screen.getPrimaryDisplay();
+    const { x, y, width, height } = primaryDisplay.workArea;
 
-    if (isVisible) {
-      return {
-        x: Math.round(data.x),
-        y: Math.round(data.y),
-        width: Math.max(320, Math.round(data.width)),
-        height: Math.max(200, Math.round(data.height))
-      };
-    }
+    const savedWidth = Math.min(width, Math.max(320, Math.round(data.width)));
+    const savedHeight = Math.min(height, Math.max(250, Math.round(data.height)));
+
+    let savedX = typeof data.x === 'number' ? Math.round(data.x) : width - savedWidth;
+    let savedY = typeof data.y === 'number' ? Math.round(data.y) : 0;
+
+    // Keep on-screen gracefully
+    if (savedX < x) savedX = x;
+    if (savedX + savedWidth > x + width) savedX = Math.max(x, x + width - savedWidth);
+    if (savedY < y) savedY = y;
+    if (savedY + savedHeight > y + height) savedY = Math.max(y, y + height - savedHeight);
+
+    return {
+      x: savedX,
+      y: savedY,
+      width: savedWidth,
+      height: savedHeight
+    };
   } catch (err) {
     console.error('Failed to load window bounds:', err);
   }
   return null;
+}
+
+const SNAP_THRESHOLD = 36; // px threshold for magnetic edge snap
+
+function snapToDisplayEdges() {
+  if (!mainWindow || mainWindow.isDestroyed() || mainWindow.isMinimized()) return;
+  try {
+    const bounds = mainWindow.getBounds();
+    const currentDisplay = screen.getDisplayMatching(bounds);
+    const workArea = currentDisplay.workArea;
+
+    let newX = bounds.x;
+    let newY = bounds.y;
+    let snapped = false;
+
+    // Snap to left edge
+    if (Math.abs(bounds.x - workArea.x) < SNAP_THRESHOLD) {
+      newX = workArea.x;
+      snapped = true;
+    }
+    // Snap to right edge
+    else if (Math.abs((bounds.x + bounds.width) - (workArea.x + workArea.width)) < SNAP_THRESHOLD) {
+      newX = workArea.x + workArea.width - bounds.width;
+      snapped = true;
+    }
+
+    // Snap to top edge
+    if (Math.abs(bounds.y - workArea.y) < SNAP_THRESHOLD) {
+      newY = workArea.y;
+      snapped = true;
+    }
+    // Snap to bottom edge
+    else if (Math.abs((bounds.y + bounds.height) - (workArea.y + workArea.height)) < SNAP_THRESHOLD) {
+      newY = workArea.y + workArea.height - bounds.height;
+      snapped = true;
+    }
+
+    if (snapped) {
+      mainWindow.setBounds({
+        x: newX,
+        y: newY,
+        width: bounds.width,
+        height: bounds.height
+      });
+    }
+  } catch (err) {
+    console.error('Failed to snap window to edges:', err);
+  }
 }
 
 let saveBoundsTimer = null;
@@ -69,6 +112,7 @@ function saveCurrentBounds() {
       fsSync.mkdirSync(dir, { recursive: true });
     }
     fsSync.writeFileSync(filePath, JSON.stringify(bounds, null, 2), 'utf-8');
+    notifyWallpaperLuminance();
   } catch (err) {
     console.error('Failed to save window bounds:', err);
   }
@@ -242,7 +286,10 @@ function createWindow() {
   mainWindow.on('resize', debouncedSaveBounds);
   mainWindow.on('move', debouncedSaveBounds);
   mainWindow.on('resized', saveCurrentBounds);
-  mainWindow.on('moved', saveCurrentBounds);
+  mainWindow.on('moved', () => {
+    snapToDisplayEdges();
+    saveCurrentBounds();
+  });
   mainWindow.on('hide', saveCurrentBounds);
 
   mainWindow.on('close', (event) => {
@@ -323,6 +370,7 @@ if (!gotTheLock) {
 
     createWindow();
     createTray();
+    setupWallpaperWatcher();
 
     app.on('activate', function () {
       if (BrowserWindow.getAllWindows().length === 0) createWindow();
@@ -842,4 +890,99 @@ ipcMain.handle('window-control', (event, action) => {
     else if (action === 'close') mainWindow.close();
     else mainWindow.minimize();
   }
+});
+
+// 6. Dynamic Wallpaper Luminance Detection
+function getWallpaperPath() {
+  if (process.platform === 'win32') {
+    const transcoded = path.join(process.env.APPDATA || '', 'Microsoft\\Windows\\Themes\\TranscodedWallpaper');
+    if (fsSync.existsSync(transcoded)) return transcoded;
+  }
+  return null;
+}
+
+let cachedWallpaperLuma = { isDark: true, avgLuma: 110 };
+let lastLumaCheck = 0;
+
+function computeWallpaperLuminance() {
+  const now = Date.now();
+  if (now - lastLumaCheck < 2000) return cachedWallpaperLuma;
+  lastLumaCheck = now;
+
+  try {
+    const wallpaperPath = getWallpaperPath();
+    if (!wallpaperPath) return cachedWallpaperLuma;
+
+    const img = nativeImage.createFromPath(wallpaperPath);
+    if (img.isEmpty()) return cachedWallpaperLuma;
+
+    const size = img.getSize();
+    if (!size.width || !size.height) return cachedWallpaperLuma;
+
+    let bounds = { x: Math.max(0, size.width - 500), y: 0, width: Math.min(500, size.width), height: size.height };
+    if (mainWindow && !mainWindow.isDestroyed()) {
+      const winBounds = mainWindow.getBounds();
+      const primaryDisplay = screen.getPrimaryDisplay();
+      const scaleX = size.width / primaryDisplay.bounds.width;
+      const scaleY = size.height / primaryDisplay.bounds.height;
+      bounds = {
+        x: Math.max(0, Math.min(size.width - 10, Math.round(winBounds.x * scaleX))),
+        y: Math.max(0, Math.min(size.height - 10, Math.round(winBounds.y * scaleY))),
+        width: Math.max(10, Math.min(size.width, Math.round(winBounds.width * scaleX))),
+        height: Math.max(10, Math.min(size.height, Math.round(winBounds.height * scaleY)))
+      };
+    }
+
+    const crop = img.crop(bounds);
+    const bmp = crop.toBitmap();
+    let totalLuma = 0;
+    let count = 0;
+    const step = 32;
+    for (let i = 0; i < bmp.length; i += 4 * step) {
+      const b = bmp[i];
+      const g = bmp[i + 1];
+      const r = bmp[i + 2];
+      totalLuma += (0.299 * r + 0.587 * g + 0.114 * b);
+      count++;
+    }
+    const avgLuma = count > 0 ? totalLuma / count : 128;
+    cachedWallpaperLuma = {
+      isDark: avgLuma < 135,
+      avgLuma: Math.round(avgLuma)
+    };
+  } catch (err) {
+    console.error('Failed to compute wallpaper luminance:', err);
+  }
+  return cachedWallpaperLuma;
+}
+
+function notifyWallpaperLuminance() {
+  if (mainWindow && !mainWindow.isDestroyed() && mainWindow.webContents) {
+    lastLumaCheck = 0;
+    const luma = computeWallpaperLuminance();
+    mainWindow.webContents.send('wallpaper-luminance-changed', luma);
+  }
+}
+
+function setupWallpaperWatcher() {
+  if (process.platform !== 'win32') return;
+  try {
+    const themesDir = path.join(process.env.APPDATA || '', 'Microsoft\\Windows\\Themes');
+    if (fsSync.existsSync(themesDir)) {
+      let debounceTimer = null;
+      fsSync.watch(themesDir, () => {
+        if (debounceTimer) clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(() => {
+          notifyWallpaperLuminance();
+        }, 500);
+      });
+    }
+  } catch (e) {
+    console.warn('Wallpaper watcher setup skipped:', e);
+  }
+}
+
+ipcMain.handle('get-wallpaper-luminance', (event) => {
+  if (!isTrustedSender(event)) return { isDark: true, avgLuma: 128 };
+  return computeWallpaperLuminance();
 });

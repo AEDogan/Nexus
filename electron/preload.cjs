@@ -23,5 +23,11 @@ contextBridge.exposeInMainWorld('electronAPI', {
   setAutoStart: (enable) => ipcRenderer.invoke('set-auto-start', enable),
   setSkipTaskbar: (flag) => ipcRenderer.invoke('set-skip-taskbar', flag),
   toggleWindow: () => ipcRenderer.invoke('toggle-window'),
-  windowControl: (action) => ipcRenderer.invoke('window-control', action)
+  windowControl: (action) => ipcRenderer.invoke('window-control', action),
+  getWallpaperLuminance: () => ipcRenderer.invoke('get-wallpaper-luminance'),
+  onWallpaperLuminanceChanged: (callback) => {
+    const listener = (_event, val) => callback(val);
+    ipcRenderer.on('wallpaper-luminance-changed', listener);
+    return () => ipcRenderer.removeListener('wallpaper-luminance-changed', listener);
+  }
 });

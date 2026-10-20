@@ -1,4 +1,5 @@
 import React from 'react';
+import { createPortal } from 'react-dom';
 import { NexusApp, ThemeConfig } from '../types';
 import { Play, Power, RotateCw, Star, Edit, FolderOpen, Trash2, Shield } from 'lucide-react';
 
@@ -34,22 +35,25 @@ export const ContextMenu: React.FC<ContextMenuProps> = ({
 
   const menuWidth = 224;
   const menuHeight = 310;
-  const padding = 10;
+  const padding = 12;
 
   let posStyle: React.CSSProperties = {};
 
   if (triggerRect && typeof window !== 'undefined') {
     let left = triggerRect.right - menuWidth;
+    if (left + menuWidth > window.innerWidth - padding) {
+      left = window.innerWidth - menuWidth - padding;
+    }
     if (left < padding) {
       left = padding;
-    }
-    if (left + menuWidth > window.innerWidth - padding) {
-      left = Math.max(padding, window.innerWidth - menuWidth - padding);
     }
 
     let top = triggerRect.bottom + 6;
     if (top + menuHeight > window.innerHeight - padding) {
-      top = Math.max(padding, triggerRect.top - menuHeight - 6);
+      top = triggerRect.top - menuHeight - 6;
+    }
+    if (top < padding) {
+      top = Math.max(padding, window.innerHeight - menuHeight - padding);
     }
 
     posStyle = {
@@ -59,28 +63,37 @@ export const ContextMenu: React.FC<ContextMenuProps> = ({
     };
   } else {
     posStyle = {
-      position: 'absolute',
-      right: 0,
-      top: '48px'
+      position: 'fixed',
+      right: '16px',
+      top: '64px'
     };
   }
 
-  return (
-    <div
-      data-testid={`context-menu-${app.id}`}
-      className="w-56 rounded-2xl shadow-2xl py-2 z-50 animate-in fade-in zoom-in-95 duration-100 overflow-hidden"
-      style={{
-        ...posStyle,
-        backgroundColor: theme.isLight ? '#ffffff' : '#10131a',
-        backdropFilter: 'blur(40px)',
-        WebkitBackdropFilter: 'blur(40px)',
-        border: `1px solid ${theme.cardBorder}`,
-        boxShadow: theme.isLight
-          ? '0 20px 50px -10px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(0, 0, 0, 0.06)'
-          : '0 20px 50px -10px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.1)'
-      }}
-      onClick={(e) => e.stopPropagation()}
-    >
+  const menuContent = (
+    <>
+      <div 
+        className="fixed inset-0 z-[9998]" 
+        onClick={(e) => {
+          e.stopPropagation();
+          onClose();
+        }} 
+      />
+      <div
+        data-testid={`context-menu-${app.id}`}
+        className="w-56 rounded-2xl shadow-2xl py-2 z-[9999] animate-in fade-in zoom-in-95 duration-100 overflow-y-auto custom-scrollbar"
+        style={{
+          ...posStyle,
+          maxHeight: 'calc(100vh - 24px)',
+          backgroundColor: theme.isLight ? '#ffffff' : '#10131a',
+          backdropFilter: 'blur(40px)',
+          WebkitBackdropFilter: 'blur(40px)',
+          border: `1px solid ${theme.cardBorder}`,
+          boxShadow: theme.isLight
+            ? '0 20px 50px -10px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(0, 0, 0, 0.08)'
+            : '0 20px 50px -10px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.15)'
+        }}
+        onClick={(e) => e.stopPropagation()}
+      >
       <div 
         className="px-4 py-2.5 border-b flex items-center justify-between" 
         style={{ 
@@ -175,5 +188,11 @@ export const ContextMenu: React.FC<ContextMenuProps> = ({
         </button>
       </div>
     </div>
+  </>
   );
+
+  if (typeof document !== 'undefined') {
+    return createPortal(menuContent, document.body);
+  }
+  return menuContent;
 };
