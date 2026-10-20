@@ -1183,7 +1183,7 @@ export default function App() {
           onMouseUp={handleCatMouseUpOrLeave}
           onMouseLeave={handleCatMouseUpOrLeave}
           onWheel={handleCatWheel}
-          className="flex items-center gap-1.5 overflow-x-auto scrollbar-hide flex-1 min-w-0 cursor-grab active:cursor-grabbing"
+          className="flex items-center gap-1.5 overflow-x-auto scrollbar-hide flex-1 min-w-0 cursor-grab active:cursor-grabbing py-1.5 px-1 -my-1.5 -mx-1"
         >
           {categories.map((cat) => {
             const isActive = activeCategory === cat;
