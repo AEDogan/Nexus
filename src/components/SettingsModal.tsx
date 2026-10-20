@@ -360,49 +360,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
             </div>
           </div>
           {/* HEADER LOGO SECTION */}
-          <div className="space-y-3">
-            <div className="flex items-center justify-between">
-              <div>
-                <h3 className="text-sm font-semibold tracking-wide">NEXUS Logo Amblemi</h3>
-                <p className="text-xs mt-0.5" style={{ color: currentTheme.textSecondary }}>
-                  Üst menü çubuğunda ve pencere başlığında görüntülenecek fütüristik amblem
-                </p>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-2 sm:grid-cols-5 gap-2.5">
-              {NEXUS_LOGOS.map((logo) => {
-                const activeLogo = currentLogo || (localStorage.getItem('nexus_header_logo') as NexusLogoStyle) || 'power-bolt';
-                const isSelected = activeLogo === logo.id;
-                return (
-                  <button
-                    key={logo.id}
-                    data-testid={`logo-choice-${logo.id}`}
-                    type="button"
-                    onClick={() => {
-                      localStorage.setItem('nexus_header_logo', logo.id);
-                      onSelectLogo?.(logo.id);
-                    }}
-                    className="p-2.5 rounded-2xl border flex flex-col items-center gap-2 text-center transition-all hover:scale-102 active:scale-95 group"
-                    style={{
-                      backgroundColor: isSelected
-                        ? (currentTheme.isLight ? 'rgba(20, 184, 166, 0.12)' : currentTheme.accentBg)
-                        : (currentTheme.isLight ? 'rgba(0, 0, 0, 0.02)' : 'rgba(255, 255, 255, 0.02)'),
-                      borderColor: isSelected ? currentTheme.accent : currentTheme.cardBorder
-                    }}
-                    title={logo.desc}
-                  >
-                    <div className="w-8 h-8 flex items-center justify-center">
-                      <NexusLogo styleId={logo.id} size={24} />
-                    </div>
-                    <span className="text-[11px] font-semibold truncate w-full" style={{ color: isSelected ? currentTheme.accent : currentTheme.textPrimary }}>
-                      {logo.name}
-                    </span>
-                  </button>
-                );
-              })}
-            </div>
-          </div>
+          
 
           {/* GENERAL SETTINGS */}
           <div className="space-y-3">

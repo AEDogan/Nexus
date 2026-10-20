@@ -540,10 +540,8 @@ describe('NEXUS Comprehensive User Interaction Tests', () => {
     await user.click(logoBtn);
     expect(localStorage.getItem('nexus_header_logo')).toBe('neon-vortex');
 
-    // 3. Open settings modal and pick another logo
-    await user.click(screen.getByTestId('settings-btn'));
-    const shieldOption = screen.getByTestId('logo-choice-cyber-shield');
-    await user.click(shieldOption);
+    // Click logo again to cycle
+    await user.click(logoBtn);
     expect(localStorage.getItem('nexus_header_logo')).toBe('cyber-shield');
   });
 });
