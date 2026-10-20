@@ -44,8 +44,6 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
   onGlassOpacityChange,
   layoutMode = 'right-dock',
   onLayoutModeChange,
-  currentLogo,
-  onSelectLogo,
   autoStart,
   onToggleAutoStart,
   autoDiscover,

@@ -1642,8 +1642,6 @@ export default function App() {
         onGlassOpacityChange={setGlassOpacity}
         layoutMode={layoutMode}
         onLayoutModeChange={setLayoutMode}
-        currentLogo={logoStyle}
-        onSelectLogo={handleSelectLogo}
         autoStart={autoStart}
         onToggleAutoStart={() => setAutoStart(!autoStart)}
         autoDiscover={autoDiscover}
